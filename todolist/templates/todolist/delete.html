@@ -1,0 +1,31 @@
+
+
+
+<html>
+
+<head>
+    <title> Delete task </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+    <div class="container text-center mt-5">
+
+    <p> Are you sure you want to delete this task ?  </br> <span> Task : {{item}}  </span> </p>
+
+    <div class="text-center">
+
+    <a class="btn btn-danger" href = "{% url 'list' %}" role="button"> Cancel <a>
+
+    <form method ="post" action="/deleteTasks/{{ item.id }}/"> 
+        {% csrf_token %}
+        <input  class="btn btn-primary" type="submit" name="Confirm">
+    </form>
+
+    </div>
+
+</body>
+
+</html>

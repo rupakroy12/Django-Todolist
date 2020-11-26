@@ -1,0 +1,167 @@
+<html>
+
+<head>
+    <title> To-do list </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css2?family=Chilanka&display=swap" rel="stylesheet">
+</head>
+
+<style>
+
+	body{
+		background-color: #638CB8;
+		font-family: 'Chilanka', cursive;
+	}
+
+	input{
+		width: 100%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		box-sizing: border-box;
+	}
+
+	input::placeholder {
+	  color: #d3d3d3;
+	}
+
+	.submit{
+		background-color: #6BA3E8;
+	}
+
+	.center-column{
+		width:600px;
+		margin: 20px auto;
+		padding:20px;
+		background-color: #fff;
+		border-radius: 3px;
+		box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.75);
+	}
+
+	.item-row{
+		background-color: #906abd;
+		margin: 10px;
+		padding: 20px;
+		border-radius: 3px;
+		color: #fff;
+		font-size: 16px;
+		box-shadow: 0px -1px 10px -4px rgba(0,0,0,0.75);
+	}
+
+	.btn-danger{
+		background-color: #ffae19;
+		border-color: #e59400;
+	}
+
+</style>
+
+
+<body>
+{% block content %}   
+<div class="center-column">
+	<h3 class = "text-center"> My todo list </h3>
+    <form method = "post" action="/">
+        {% csrf_token %}
+        {{form.title}}
+        <input class="btn btn-info" type = "submit" name="Create Task">
+    </form>
+    
+    <div class="todo-list">
+        
+		
+        {% for task in tasks %}
+
+            <div class = "item-row">
+                {% if task.complete == True %}
+                    <strike> {{task}} </strike>
+					<div class = "float-right" >
+						<span class ="font-italic">Finished on : </span> <span> {{task.deleted}} </span></br>
+					</div>
+                
+				{% else %}
+                    <span> {{task}} </span></br>
+					<div class = "float-right" >
+						<span class ="font-italic">Created on : </span> <span> {{task.created}} </span></br>
+					</div>
+					<a class="btn btn-info" href="{% url 'update_task' task.id %}"> Update </a>
+					{% comment %} <a class="btn btn-sm btn-danger deletebutton" onclick="myFunction()"> Delete </a> {% endcomment %}
+					
+					
+					{% comment %} <div id="show" style=" display: none;" ">
+									<p> Are you sure you want to delete ? </p>
+					
+									<form method =" post" action="/deleteTasks/{{ task.id }}/">
+						{% csrf_token %}
+						<input class="btn btn-primary" type="submit" name="Confirm">
+						</form>
+					
+					</div> {% endcomment %}
+
+					
+
+                {% endif %}
+				
+				
+
+				{% comment %} modal begins {% endcomment %}
+
+								<!-- Button trigger modal -->
+				<!-- Button trigger modal -->
+			<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter">
+			Delete
+			</button>
+
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" style = "color: black;" > {{ task.title }}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" style = "color: black;">
+					<p> Are you sure you want to delete this task?  </p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					<form method ="post" action="/deleteTasks/{{ task.id }}/"> 
+        						{% csrf_token %}
+        						<button class="btn btn-success mt-3" type="submit" name="Confirm">Confirm</button>
+   					</form>
+					
+					
+				</div>
+				</div>
+			</div>
+			</div>
+			
+
+			
+			
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+		{% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>
+
